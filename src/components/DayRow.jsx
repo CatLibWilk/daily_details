@@ -1,5 +1,6 @@
 import Input from './Input.jsx'
 import MinusButton from './MinusButton.jsx';
+import PlusButton from './PlusButton.jsx';
 import RadioSet from './RadioSet.jsx';
 
 function DayRow(props){
@@ -11,9 +12,15 @@ function DayRow(props){
 
             <Input cf={ props.updateTotal } day={props.title}/>
 
-          <div className="col-sm text-center">
+          <div className="col-sm text-left">
             ${props.total}
             <MinusButton cf={ props.subtractTotal } day={ props.title }/>
+          </div>
+
+          <div className="col-sm text-left">
+            <MinusButton cf={ props.subtractBeers } day={ props.title }/>
+            {props.drinks}
+            <PlusButton cf={ props.addBeers } day={ props.title }/>
           </div>
 
           <div className="col-sm">

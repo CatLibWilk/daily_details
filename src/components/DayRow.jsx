@@ -10,16 +10,16 @@ function DayRow(props){
         <h3>{props.title.toUpperCase()}</h3>
         <div className="row h-100">
 
-            <Input cf={ props.updateTotal } day={props.title}/>
+            <Input cf={ props.updateTotalMoney } day={props.title}/>
 
           <div className="col-sm text-left">
-            ${props.total}
-            <MinusButton cf={ props.subtractTotal } day={ props.title }/>
+            ${props.totalMoney}
+            <MinusButton cf={ props.subtractTotalMoney } day={ props.title }/>
           </div>
 
           <div className="col-sm text-left">
             <MinusButton cf={ props.subtractBeers } day={ props.title }/>
-            {props.drinks}
+              {props.totalBeers}
             <PlusButton cf={ props.addBeers } day={ props.title }/>
           </div>
 

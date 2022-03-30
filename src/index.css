@@ -29,3 +29,8 @@ code {
 .beer-minus-btn {
   margin-right: 10px;
 }
+
+.chart-canvas-container {
+  padding-left: 100px;
+  padding-right: 100px;
+}

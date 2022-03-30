@@ -7,7 +7,17 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js';
+
 import { Bar } from 'react-chartjs-2';
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
 function WeekChart({state_data}){
 
@@ -35,9 +45,10 @@ function WeekChart({state_data}){
     ]
   }
   return(
-    <div className="mt-5">
+    <div className="container mt-5 chart-canvas-container">
       <Bar 
         data={data}
+
         options={{
           title:{
             display:true,
@@ -45,9 +56,10 @@ function WeekChart({state_data}){
             fontSize:20
           },
           legend:{
-            display:true,
+            display:false,
             position:'right'
-          }
+          },
+          maintainAspectRatio: true
         }}
       />
     </div>

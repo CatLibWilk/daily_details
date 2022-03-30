@@ -28,7 +28,7 @@ class App extends React.Component{
 
     if ( int_value && parseInt( int_value ) ){
       new_state[ `${day.toLowerCase()}` ].money = current_total + parseInt( int_value );
-      debugger
+
       new_state['totals'].money = Object.values( new_state ).reduce( (sum, { money } ) => sum + money, 0 ) - new_state['totals'].money;
       this.setState( new_state );
       

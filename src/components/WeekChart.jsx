@@ -19,9 +19,8 @@ ChartJS.register(
   Legend
 );
 
-function WeekChart({state_data}){
+function WeekChart({daily_data_array, title}){
 
-  const daily_spending_data_array = Object.values( state_data ).map( ( day ) => day.money )
 
   const data = {
     labels: [
@@ -33,26 +32,27 @@ function WeekChart({state_data}){
       'Saturday',
       'Sunday',
      ],
+
     datasets: [
 
       {
-        label: 'Daily Spending',
-        backgroundColor: 'rgba(75,192,192,1)',
+        label: title,
+        backgroundColor: 'rgba(181, 149, 35)',
         borderColor: 'rgba(0,0,0,1)',
         borderWidth: 2,
-        data: daily_spending_data_array
+        data: daily_data_array
       }
     ]
   }
   return(
-    <div className="container mt-5 chart-canvas-container">
+    <div className="container col-6 mt-5">
       <Bar 
         data={data}
 
         options={{
           title:{
-            display:true,
-            text:'Daily Spending',
+            display:false,
+            text:title,
             fontSize:20
           },
           legend:{

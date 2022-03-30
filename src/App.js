@@ -154,7 +154,12 @@ class App extends React.Component{
             <button className="btn btn-danger mt-5" onClick= {( )=>{ this.clearWeek( ) } }>Clear Week</button>
           </div>
         </div>
-        <WeekChart state_data={{...this.state}}/>
+        <div>
+          <row className="row">
+            <WeekChart daily_data_array={ Object.values( this.state ).map( ( day ) => day.money ) } title={"Daily Spending"} />
+            <WeekChart daily_data_array={ Object.values( this.state ).map( ( day ) => day.beers ) } title={"Daily Beers"} />
+          </row>
+        </div>
       </div>
     )
   }

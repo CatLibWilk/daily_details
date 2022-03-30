@@ -1,5 +1,6 @@
 import React from 'react';
 import DayRow from './components/DayRow';
+import WeekChart from './components/WeekChart';
 
 class App extends React.Component{
   constructor(props){
@@ -153,7 +154,7 @@ class App extends React.Component{
             <button className="btn btn-danger mt-5" onClick= {( )=>{ this.clearWeek( ) } }>Clear Week</button>
           </div>
         </div>
-
+        <WeekChart state_data={{...this.state}}/>
       </div>
     )
   }

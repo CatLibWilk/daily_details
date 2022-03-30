@@ -17,7 +17,7 @@ function DayRow(props){
             <MinusButton cf={ props.subtractTotalMoney } day={ props.title }/>
           </div>
 
-          <div className="col-sm text-left">
+          <div className="col-sm text-left mr-5">
             <MinusButton cf={ props.subtractBeers } day={ props.title }/>
               {props.totalBeers}
             <PlusButton cf={ props.addBeers } day={ props.title }/>

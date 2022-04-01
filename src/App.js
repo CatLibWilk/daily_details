@@ -6,15 +6,17 @@ class App extends React.Component{
   constructor(props){
     super(props);
     this.state = {
-      monday: {'money':0, 'beers':0},
-      tuesday: {'money':0, 'beers':0},
-      wednesday: {'money':0, 'beers':0},
-      thursday: {'money':0, 'beers':0},
-      friday: {'money':0, 'beers':0},
-      saturday: {'money':0, 'beers':0},
-      sunday: {'money':0, 'beers':0},
+      days_of_week: {
+        monday: { 'money':0, 'beers':0 },
+        tuesday: { 'money':0, 'beers':0 },
+        wednesday: { 'money':0, 'beers':0 },
+        thursday: { 'money':0, 'beers':0 },
+        friday: { 'money':0, 'beers':0 },
+        saturday: { 'money':0, 'beers':0 },
+        sunday: { 'money':0, 'beers':0 },
 
-      totals: {'money':0, 'beers': 0}
+        totals: { 'money':0, 'beers': 0 }
+      }
     }
   }
 
@@ -23,13 +25,13 @@ class App extends React.Component{
   }
 
   updateTotalMoney = ( int_value, day ) => {
-    let current_total = this.state[ `${day.toLowerCase()}` ].money;
+    let current_total = this.state.days_of_week[ `${day.toLowerCase()}` ].money;
     let new_state = {...this.state};
 
     if ( int_value && parseInt( int_value ) ){
-      new_state[ `${day.toLowerCase()}` ].money = current_total + parseInt( int_value );
+      new_state.days_of_week[ `${day.toLowerCase()}` ].money = current_total + parseInt( int_value );
 
-      new_state['totals'].money = Object.values( new_state ).reduce( (sum, { money } ) => sum + money, 0 ) - new_state['totals'].money;
+      new_state.days_of_week.totals.money = Object.values( new_state.days_of_week ).reduce( (sum, { money } ) => sum + money, 0 ) - new_state.days_of_week.totals.money;
       this.setState( new_state );
       
     };
@@ -38,53 +40,55 @@ class App extends React.Component{
   }
 
   addBeers = ( day ) => {
-    let current_total  = this.state[ `${day.toLowerCase()}` ].beers;
+    let current_total  = this.state.days_of_week[ `${day.toLowerCase()}` ].beers;
     let new_state = {...this.state}
 
-    new_state[ `${day.toLowerCase()}` ].beers = current_total + 1
-    new_state['totals'].beers = Object.values( new_state ).reduce( (sum, { beers } ) => sum + beers, 0 ) - new_state['totals'].beers;
+    new_state.days_of_week[ `${day.toLowerCase()}` ].beers = current_total + 1
+    new_state.days_of_week.totals.beers = Object.values( new_state.days_of_week ).reduce( (sum, { beers } ) => sum + beers, 0 ) - new_state.days_of_week.totals.beers;
 
     this.setState( new_state );
   }
 
   subtractBeers = ( day ) => {
-    let current_total  = this.state[ `${day.toLowerCase()}` ].beers;
+    let current_total  = this.state.days_of_week[ `${day.toLowerCase()}` ].beers;
     let new_state = {...this.state}
 
     if ( current_total > 0 ){
-      new_state[ `${day.toLowerCase()}` ].beers = current_total - 1
+      new_state.days_of_week[ `${day.toLowerCase()}` ].beers = current_total - 1
     }
     
-    new_state['totals'].beers = Object.values( new_state ).reduce( (sum, { beers } ) => sum + beers, 0 ) - new_state['totals'].beers;
+    new_state.days_of_week.totals.beers = Object.values( new_state.days_of_week ).reduce( (sum, { beers } ) => sum + beers, 0 ) - new_state.days_of_week.totals.beers;
 
     this.setState( new_state );
   }
 
   subtractTotalMoney = ( day ) => {
-    let current_total = this.state[ `${day.toLowerCase()}` ].money;
+    let current_total = this.state.days_of_week[ `${day.toLowerCase()}` ].money;
     let new_state = { ...this.state};
 
     if ( current_total > 0 ){
-      new_state[ `${day.toLowerCase()}` ].money = current_total - 1
+      new_state.days_of_week[ `${day.toLowerCase()}` ].money = current_total - 1
     }
     
-    new_state['totals'].money = Object.values( new_state ).reduce( (sum, { money } ) => sum + money, 0 ) - new_state['totals'].money;
+    new_state.days_of_week.totals.money = Object.values( new_state.days_of_week ).reduce( (sum, { money } ) => sum + money, 0 ) - new_state.days_of_week.totals.money;
     this.setState( new_state );
 
   }
 
   clearWeek = ( ) => {
     let new_state = {
-        monday: {'money':0, 'beers':0},
-        tuesday: {'money':0, 'beers':0},
-        wednesday: {'money':0, 'beers':0},
-        thursday: {'money':0, 'beers':0},
-        friday: {'money':0, 'beers':0},
-        saturday: {'money':0, 'beers':0},
-        sunday: {'money':0, 'beers':0},
-  
-        totals: {'money':0, 'beers': 0}
+      days_of_week: {
+        monday: { 'money':0, 'beers':0 },
+        tuesday: { 'money':0, 'beers':0 },
+        wednesday: { 'money':0, 'beers':0 },
+        thursday: { 'money':0, 'beers':0 },
+        friday: { 'money':0, 'beers':0 },
+        saturday: { 'money':0, 'beers':0 },
+        sunday: { 'money':0, 'beers':0 },
+
+        totals: { 'money':0, 'beers': 0 }
       }
+    }
     
     this.setState( new_state );
 
@@ -108,8 +112,8 @@ class App extends React.Component{
         </div>
 
         <DayRow title={"Monday"} 
-            totalMoney={this.state.monday.money} 
-            totalBeers={this.state.monday.beers} 
+            totalMoney={this.state.days_of_week.monday.money} 
+            totalBeers={this.state.days_of_week.monday.beers} 
 
             updateTotalMoney={ this.updateTotalMoney } 
             addBeers={this.addBeers} 
@@ -118,8 +122,8 @@ class App extends React.Component{
             subtractBeers={this.subtractBeers}/>
 
         <DayRow title={"Tuesday"} 
-            totalMoney={this.state.tuesday.money} 
-            totalBeers={this.state.tuesday.beers} 
+            totalMoney={this.state.days_of_week.tuesday.money} 
+            totalBeers={this.state.days_of_week.tuesday.beers} 
 
             updateTotalMoney={ this.updateTotalMoney } 
             addBeers={this.addBeers} 
@@ -128,8 +132,8 @@ class App extends React.Component{
             subtractBeers={ this.subtractBeers }/>
 
         <DayRow title={"Wednesday"} 
-            totalMoney={ this.state.wednesday.money } 
-            totalBeers={ this.state.wednesday.beers } 
+            totalMoney={ this.state.days_of_week.wednesday.money } 
+            totalBeers={ this.state.days_of_week.wednesday.beers } 
 
             updateTotalMoney={ this.updateTotalMoney } 
             addBeers={this.addBeers} 
@@ -139,13 +143,13 @@ class App extends React.Component{
 
         <div className="row h-100">
           <div className="col-sm my-auto text-center mt-3">
-            <h1 className="text-secondary">Weekly Total: ${ this.state.totals.money }</h1>
+            <h1 className="text-secondary">Weekly Total: ${ this.state.days_of_week.totals.money }</h1>
           </div>
         </div>
 
         <div className="row h-100">
           <div className="col-sm my-auto text-center mt-3">
-            <h1 className="text-secondary">Weekly Beers: { this.state.totals.beers }</h1>
+            <h1 className="text-secondary">Weekly Beers: { this.state.days_of_week.totals.beers }</h1>
           </div>
         </div>
 
@@ -156,8 +160,8 @@ class App extends React.Component{
         </div>
         <div>
           <row className="row">
-            <WeekChart daily_data_array={ Object.values( this.state ).map( ( day ) => day.money ) } title={"Daily Spending"} />
-            <WeekChart daily_data_array={ Object.values( this.state ).map( ( day ) => day.beers ) } title={"Daily Beers"} />
+            <WeekChart daily_data_array={ Object.values( this.state.days_of_week ).map( ( day ) => day.money ) } title={"Daily Spending"} />
+            <WeekChart daily_data_array={ Object.values( this.state.days_of_week ).map( ( day ) => day.beers ) } title={"Daily Beers"} />
           </row>
         </div>
       </div>

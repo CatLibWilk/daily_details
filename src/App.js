@@ -1,6 +1,8 @@
 import React from 'react';
 import DayRow from './components/DayRow';
 import WeekChart from './components/WeekChart';
+import MonthlyExpenseRow from './components/MonthlyExpenseRow';
+import RadioSet from './components/RadioSet';
 
 class App extends React.Component{
   constructor(props){
@@ -16,13 +18,46 @@ class App extends React.Component{
         sunday: { 'money':0, 'beers':0 },
 
         totals: { 'money':0, 'beers': 0 }
+      },
+      monthly_exenditures: {
+        groceries: 0,
+        household: 0,
+        bills: 0,
+        medical: 0,
+        transportation: 0
       }
     }
   }
 
-  componentDidUpdate(){
-    //this is where trigger update of chart showing weekly spending//
-  }
+
+  clearWeek = ( ) => {
+    let new_state = {
+      days_of_week: {
+        monday: { 'money':0, 'beers':0 },
+        tuesday: { 'money':0, 'beers':0 },
+        wednesday: { 'money':0, 'beers':0 },
+        thursday: { 'money':0, 'beers':0 },
+        friday: { 'money':0, 'beers':0 },
+        saturday: { 'money':0, 'beers':0 },
+        sunday: { 'money':0, 'beers':0 },
+
+        totals: { 'money':0, 'beers': 0 }
+      },
+      monthly_exenditures: {
+        groceries: 0
+      }
+    }
+    
+    this.setState( new_state );
+
+    /*loop through all the btn-check buttons and set checked = false*/
+    const radio_buttons = document.getElementsByClassName( "btn-check" )
+    for( var i = 0; i < radio_buttons.length; i++ ){
+        radio_buttons[i].checked = false
+
+    }
+
+  };
 
   updateTotalMoney = ( int_value, day ) => {
     let current_total = this.state.days_of_week[ `${day.toLowerCase()}` ].money;
@@ -75,31 +110,19 @@ class App extends React.Component{
 
   }
 
-  clearWeek = ( ) => {
-    let new_state = {
-      days_of_week: {
-        monday: { 'money':0, 'beers':0 },
-        tuesday: { 'money':0, 'beers':0 },
-        wednesday: { 'money':0, 'beers':0 },
-        thursday: { 'money':0, 'beers':0 },
-        friday: { 'money':0, 'beers':0 },
-        saturday: { 'money':0, 'beers':0 },
-        sunday: { 'money':0, 'beers':0 },
+  update_monthly_expenditures = ( value, expenditure ) => {
+    let current_total = this.state.monthly_exenditures[ `${expenditure.toLowerCase()}` ];
+    let new_state = {...this.state};
 
-        totals: { 'money':0, 'beers': 0 }
-      }
-    }
-    
-    this.setState( new_state );
+    if ( value && parseInt( value ) ){
+      new_state.monthly_exenditures[ `${expenditure.toLowerCase( )}` ] = current_total + parseInt( value );
+      this.setState( new_state );
+      
+    };
 
-    /*loop through all the btn-check buttons and set checked = false*/
-    const radio_buttons = document.getElementsByClassName( "btn-check" )
-    for( var i = 0; i < radio_buttons.length; i++ ){
-        radio_buttons[i].checked = false
-
-    }
-
-  };
+    const input_id = `money_input_${expenditure.toLowerCase( )}`
+    document.getElementById(input_id).value = '';
+  }
 
   render(){
     return(
@@ -159,11 +182,28 @@ class App extends React.Component{
           </div>
         </div>
         <div>
-          <row className="row">
+          <row className="row h-100">
             <WeekChart daily_data_array={ Object.values( this.state.days_of_week ).map( ( day ) => day.money ) } title={"Daily Spending"} />
             <WeekChart daily_data_array={ Object.values( this.state.days_of_week ).map( ( day ) => day.beers ) } title={"Daily Beers"} />
           </row>
         </div>
+        <div className="col-12 mt-5">
+        <MonthlyExpenseRow 
+          title={"Groceries"}
+          update_monthly_expenditures={ this.update_monthly_expenditures }
+          expenseTotal={ this.state.monthly_exenditures.groceries }
+        />
+        <MonthlyExpenseRow 
+          title={"Household"}
+          update_monthly_expenditures={ this.update_monthly_expenditures }
+          expenseTotal={ this.state.monthly_exenditures.household }
+        />
+        </div>
+        <div className="col-sm mt-5">
+          <h1>Monthly Bills Checklist</h1>
+            <RadioSet category='monthly_bills_checklist' name_array={['Gas', 'Electric', 'Apartment Insurance', 'CC', 'Internet', 'Rent']}/>
+        </div>
+
       </div>
     )
   }

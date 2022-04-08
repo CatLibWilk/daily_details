@@ -10,7 +10,7 @@ function DayRow(props){
         <h3>{props.title.toUpperCase()}</h3>
         <div className="row h-100">
 
-            <Input cf={ props.updateTotalMoney } day={props.title}/>
+            <Input cf={ props.updateTotalMoney } category={ props.title }/>
 
           <div className="col-sm text-left">
             ${props.totalMoney}
@@ -24,7 +24,7 @@ function DayRow(props){
           </div>
 
           <div className="col-sm">
-            <RadioSet day={props.title}/>
+            <RadioSet category={props.title} name_array={['Beer', 'Cigs', '1700']}/>
           </div>
 
         </div>

@@ -24,7 +24,7 @@ function DayRow(props){
           </div>
 
           <div className="col-sm">
-            <RadioSet category={props.title} name_array={['Beer', 'Cigs', '1700']}/>
+            <RadioSet category={props.title} classes='weekly-reset' name_array={['Beer', 'Cigs', '1700']}/>
           </div>
 
         </div>

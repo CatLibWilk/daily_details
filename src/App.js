@@ -51,7 +51,7 @@ class App extends React.Component{
     this.setState( new_state );
 
     /*loop through all the btn-check buttons and set checked = false*/
-    const radio_buttons = document.getElementsByClassName( "btn-check" )
+    const radio_buttons = document.getElementsByClassName( "weekly-reset" )
     for( var i = 0; i < radio_buttons.length; i++ ){
         radio_buttons[i].checked = false
 
@@ -201,7 +201,7 @@ class App extends React.Component{
         </div>
         <div className="col-sm mt-5">
           <h1>Monthly Bills Checklist</h1>
-            <RadioSet category='monthly_bills_checklist' name_array={['Gas', 'Electric', 'Apartment Insurance', 'CC', 'Internet', 'Rent']}/>
+            <RadioSet category='monthly_bills_checklist' classes='' name_array={['Gas', 'Electric', 'Apartment Insurance', 'CC', 'Internet', 'Rent']}/>
         </div>
 
       </div>

@@ -1,8 +1,11 @@
 import React from 'react';
+import { useContext } from 'react';
 import DayRow from './components/DayRow';
 import WeekChart from './components/WeekChart';
 import MonthlyExpenseRow from './components/MonthlyExpenseRow';
 import RadioSet from './components/RadioSet';
+import firebase from 'firebase/compat/app';
+import firebase_config from './components/Firebase/config.js';
 
 class App extends React.Component{
   constructor(props){
@@ -27,8 +30,21 @@ class App extends React.Component{
         transportation: 0
       }
     }
+
+    firebase.initializeApp(firebase_config);
+    this.db = firebase.database();
+    
   }
 
+  componentDidMount(){
+    let rootRef = this.db.ref()
+    rootRef.once('value', (snapshot) => {
+      console.log(snapshot.val());
+      this.setState( snapshot.val() )
+    }, (errorObject) => {
+      console.log('The read failed: ' + errorObject.name);
+    }); 
+  }
 
   clearWeek = ( ) => {
     let new_state = {
@@ -43,15 +59,45 @@ class App extends React.Component{
 
         totals: { 'money':0, 'beers': 0 }
       },
-      monthly_exenditures: {
-        groceries: 0
-      }
     }
     
     this.setState( new_state );
 
     /*loop through all the btn-check buttons and set checked = false*/
     const radio_buttons = document.getElementsByClassName( "weekly-reset" )
+    for( var i = 0; i < radio_buttons.length; i++ ){
+        radio_buttons[i].checked = false
+
+    }
+
+  };
+
+  clearAll = ( ) => {
+    let new_state = {
+      days_of_week: {
+        monday: { 'money':0, 'beers':0 },
+        tuesday: { 'money':0, 'beers':0 },
+        wednesday: { 'money':0, 'beers':0 },
+        thursday: { 'money':0, 'beers':0 },
+        friday: { 'money':0, 'beers':0 },
+        saturday: { 'money':0, 'beers':0 },
+        sunday: { 'money':0, 'beers':0 },
+
+        totals: { 'money':0, 'beers': 0 }
+      },
+      monthly_exenditures: {
+        groceries: 0,
+        household: 0,
+        bills: 0,
+        medical: 0,
+        transportation: 0
+      }
+    }
+    
+    this.setState( new_state );
+
+    /*loop through all the btn-check buttons and set checked = false*/
+    const radio_buttons = document.getElementsByClassName( "btn-check" )
     for( var i = 0; i < radio_buttons.length; i++ ){
         radio_buttons[i].checked = false
 
@@ -127,7 +173,6 @@ class App extends React.Component{
   render(){
     return(
       <div className="container">
-
         <div className="row h-100">
           <div className="col-sm my-auto text-center">
             <h1 className="text-danger">DailyDetails</h1>
@@ -181,6 +226,7 @@ class App extends React.Component{
             <button className="btn btn-danger mt-5" onClick= {( )=>{ this.clearWeek( ) } }>Clear Week</button>
           </div>
         </div>
+
         <div>
           <row className="row h-100">
             <WeekChart daily_data_array={ Object.values( this.state.days_of_week ).map( ( day ) => day.money ) } title={"Daily Spending"} />
@@ -202,6 +248,12 @@ class App extends React.Component{
         <div className="col-sm mt-5">
           <h1>Monthly Bills Checklist</h1>
             <RadioSet category='monthly_bills_checklist' classes='' name_array={['Gas', 'Electric', 'Apartment Insurance', 'CC', 'Internet', 'Rent']}/>
+        </div>
+
+        <div className="row h-100">
+          <div className="col-sm my-auto text-center">
+            <button className="btn btn-danger mt-5" onClick= {( )=>{ this.clearAll( ) } }>Clear All</button>
+          </div>
         </div>
 
       </div>

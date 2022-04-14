@@ -1,5 +1,4 @@
 import React from 'react';
-import { useContext } from 'react';
 import DayRow from './components/DayRow';
 import WeekChart from './components/WeekChart';
 import MonthlyExpenseRow from './components/MonthlyExpenseRow';
@@ -37,13 +36,23 @@ class App extends React.Component{
   }
 
   componentDidMount(){
+    window.addEventListener("beforeunload", (ev) => {
+      ev.preventDefault();
+      return this.saveToDB();
+    })
+
     let rootRef = this.db.ref()
     rootRef.once('value', (snapshot) => {
-      console.log(snapshot.val());
-      this.setState( snapshot.val() )
+      // console.log(snapshot.val());
+      this.setState( snapshot.val( ) )
     }, (errorObject) => {
       console.log('The read failed: ' + errorObject.name);
     }); 
+  }
+  
+  saveToDB = () =>{
+    let rootRef = this.db.ref();
+    rootRef.set( this.state )
   }
 
   clearWeek = ( ) => {
@@ -173,90 +182,90 @@ class App extends React.Component{
   render(){
     return(
       <div className="container">
-        <div className="row h-100">
-          <div className="col-sm my-auto text-center">
-            <h1 className="text-danger">DailyDetails</h1>
+          <div className="row h-100">
+            <div className="col-sm my-auto text-center">
+              <h1 className="text-danger">DailyDetails</h1>
+            </div>
           </div>
-        </div>
 
-        <DayRow title={"Monday"} 
-            totalMoney={this.state.days_of_week.monday.money} 
-            totalBeers={this.state.days_of_week.monday.beers} 
+          <DayRow title={"Monday"} 
+              totalMoney={this.state.days_of_week.monday.money} 
+              totalBeers={this.state.days_of_week.monday.beers} 
 
-            updateTotalMoney={ this.updateTotalMoney } 
-            addBeers={this.addBeers} 
+              updateTotalMoney={ this.updateTotalMoney } 
+              addBeers={this.addBeers} 
 
-            subtractTotalMoney={ this.subtractTotalMoney } 
-            subtractBeers={this.subtractBeers}/>
+              subtractTotalMoney={ this.subtractTotalMoney } 
+              subtractBeers={this.subtractBeers}/>
 
-        <DayRow title={"Tuesday"} 
-            totalMoney={this.state.days_of_week.tuesday.money} 
-            totalBeers={this.state.days_of_week.tuesday.beers} 
+          <DayRow title={"Tuesday"} 
+              totalMoney={this.state.days_of_week.tuesday.money} 
+              totalBeers={this.state.days_of_week.tuesday.beers} 
 
-            updateTotalMoney={ this.updateTotalMoney } 
-            addBeers={this.addBeers} 
+              updateTotalMoney={ this.updateTotalMoney } 
+              addBeers={this.addBeers} 
 
-            subtractTotalMoney={ this.subtractTotalMoney } 
-            subtractBeers={ this.subtractBeers }/>
+              subtractTotalMoney={ this.subtractTotalMoney } 
+              subtractBeers={ this.subtractBeers }/>
 
-        <DayRow title={"Wednesday"} 
-            totalMoney={ this.state.days_of_week.wednesday.money } 
-            totalBeers={ this.state.days_of_week.wednesday.beers } 
+          <DayRow title={"Wednesday"} 
+              totalMoney={ this.state.days_of_week.wednesday.money } 
+              totalBeers={ this.state.days_of_week.wednesday.beers } 
 
-            updateTotalMoney={ this.updateTotalMoney } 
-            addBeers={this.addBeers} 
+              updateTotalMoney={ this.updateTotalMoney } 
+              addBeers={this.addBeers} 
 
-            subtractTotalMoney={ this.subtractTotalMoney } 
-            subtractBeers= {this.subtractBeers }/>
+              subtractTotalMoney={ this.subtractTotalMoney } 
+              subtractBeers= {this.subtractBeers }/>
 
-        <div className="row h-100">
-          <div className="col-sm my-auto text-center mt-3">
-            <h1 className="text-secondary">Weekly Total: ${ this.state.days_of_week.totals.money }</h1>
+          <div className="row h-100">
+            <div className="col-sm my-auto text-center mt-3">
+              <h1 className="text-secondary">Weekly Total: ${ this.state.days_of_week.totals.money }</h1>
+            </div>
           </div>
-        </div>
 
-        <div className="row h-100">
-          <div className="col-sm my-auto text-center mt-3">
-            <h1 className="text-secondary">Weekly Beers: { this.state.days_of_week.totals.beers }</h1>
+          <div className="row h-100">
+            <div className="col-sm my-auto text-center mt-3">
+              <h1 className="text-secondary">Weekly Beers: { this.state.days_of_week.totals.beers }</h1>
+            </div>
           </div>
-        </div>
 
-        <div className="row h-100">
-          <div className="col-sm my-auto text-center">
-            <button className="btn btn-danger mt-5" onClick= {( )=>{ this.clearWeek( ) } }>Clear Week</button>
+          <div className="row h-100">
+            <div className="col-sm my-auto text-center">
+              <button className="btn btn-danger mt-5" onClick= {( )=>{ this.clearWeek( ) } }>Clear Week</button>
+            </div>
           </div>
-        </div>
 
-        <div>
-          <row className="row h-100">
-            <WeekChart daily_data_array={ Object.values( this.state.days_of_week ).map( ( day ) => day.money ) } title={"Daily Spending"} />
-            <WeekChart daily_data_array={ Object.values( this.state.days_of_week ).map( ( day ) => day.beers ) } title={"Daily Beers"} />
-          </row>
-        </div>
-        <div className="col-12 mt-5">
-        <MonthlyExpenseRow 
-          title={"Groceries"}
-          update_monthly_expenditures={ this.update_monthly_expenditures }
-          expenseTotal={ this.state.monthly_exenditures.groceries }
-        />
-        <MonthlyExpenseRow 
-          title={"Household"}
-          update_monthly_expenditures={ this.update_monthly_expenditures }
-          expenseTotal={ this.state.monthly_exenditures.household }
-        />
-        </div>
-        <div className="col-sm mt-5">
-          <h1>Monthly Bills Checklist</h1>
-            <RadioSet category='monthly_bills_checklist' classes='' name_array={['Gas', 'Electric', 'Apartment Insurance', 'CC', 'Internet', 'Rent']}/>
-        </div>
-
-        <div className="row h-100">
-          <div className="col-sm my-auto text-center">
-            <button className="btn btn-danger mt-5" onClick= {( )=>{ this.clearAll( ) } }>Clear All</button>
+          <div>
+            <row className="row h-100">
+              <WeekChart daily_data_array={ Object.values( this.state.days_of_week ).map( ( day ) => day.money ) } title={"Daily Spending"} />
+              <WeekChart daily_data_array={ Object.values( this.state.days_of_week ).map( ( day ) => day.beers ) } title={"Daily Beers"} />
+            </row>
           </div>
-        </div>
+          <div className="col-12 mt-5">
+          <MonthlyExpenseRow 
+            title={"Groceries"}
+            update_monthly_expenditures={ this.update_monthly_expenditures }
+            expenseTotal={ this.state.monthly_exenditures.groceries }
+          />
+          <MonthlyExpenseRow 
+            title={"Household"}
+            update_monthly_expenditures={ this.update_monthly_expenditures }
+            expenseTotal={ this.state.monthly_exenditures.household }
+          />
+          </div>
+          <div className="col-sm mt-5">
+            <h1>Monthly Bills Checklist</h1>
+              <RadioSet category='monthly_bills_checklist' classes='' name_array={['Gas', 'Electric', 'Apartment Insurance', 'CC', 'Internet', 'Rent']}/>
+          </div>
 
-      </div>
+          <div className="row h-100">
+            <div className="col-sm my-auto text-center">
+              <button className="btn btn-danger mt-5" onClick= {( )=>{ this.clearAll( ) } }>Clear All</button>
+            </div>
+          </div>
+
+        </div>
     )
   }
 

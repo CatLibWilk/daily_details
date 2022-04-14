@@ -7,7 +7,7 @@ function DayRow(props){
 
     return(
         <>
-        <h3>{props.title.toUpperCase()}</h3>
+        <h5>{props.title.toUpperCase()}</h5>
         <div className="row h-100">
 
             <Input cf={ props.updateTotalMoney } category={ props.title }/>

@@ -218,6 +218,46 @@ class App extends React.Component{
               subtractTotalMoney={ this.subtractTotalMoney } 
               subtractBeers= {this.subtractBeers }/>
 
+          <DayRow title={"Thursday"} 
+              totalMoney={ this.state.days_of_week.thursday.money } 
+              totalBeers={ this.state.days_of_week.thursday.beers } 
+
+              updateTotalMoney={ this.updateTotalMoney } 
+              addBeers={this.addBeers} 
+
+              subtractTotalMoney={ this.subtractTotalMoney } 
+              subtractBeers= {this.subtractBeers }/>
+
+          <DayRow title={"Friday"} 
+              totalMoney={ this.state.days_of_week.friday.money } 
+              totalBeers={ this.state.days_of_week.friday.beers } 
+
+              updateTotalMoney={ this.updateTotalMoney } 
+              addBeers={this.addBeers} 
+
+              subtractTotalMoney={ this.subtractTotalMoney } 
+              subtractBeers= {this.subtractBeers }/>
+
+          <DayRow title={"Saturday"} 
+              totalMoney={ this.state.days_of_week.saturday.money } 
+              totalBeers={ this.state.days_of_week.saturday.beers } 
+
+              updateTotalMoney={ this.updateTotalMoney } 
+              addBeers={this.addBeers} 
+
+              subtractTotalMoney={ this.subtractTotalMoney } 
+              subtractBeers= {this.subtractBeers }/>
+
+          <DayRow title={"Sunday"} 
+              totalMoney={ this.state.days_of_week.sunday.money } 
+              totalBeers={ this.state.days_of_week.sunday.beers } 
+
+              updateTotalMoney={ this.updateTotalMoney } 
+              addBeers={this.addBeers} 
+
+              subtractTotalMoney={ this.subtractTotalMoney } 
+              subtractBeers= {this.subtractBeers }/>
+
           <div className="row h-100">
             <div className="col-sm my-auto text-center mt-3">
               <h1 className="text-secondary">Weekly Total: ${ this.state.days_of_week.totals.money }</h1>
@@ -238,8 +278,28 @@ class App extends React.Component{
 
           <div>
             <row className="row h-100">
-              <WeekChart daily_data_array={ Object.values( this.state.days_of_week ).map( ( day ) => day.money ) } title={"Daily Spending"} />
-              <WeekChart daily_data_array={ Object.values( this.state.days_of_week ).map( ( day ) => day.beers ) } title={"Daily Beers"} />
+              <WeekChart daily_data_array={ 
+                [
+                  this.state.days_of_week.monday.money,
+                  this.state.days_of_week.tuesday.money,
+                  this.state.days_of_week.wednesday.money,
+                  this.state.days_of_week.thursday.money,
+                  this.state.days_of_week.friday.money,
+                  this.state.days_of_week.saturday.money,
+                  this.state.days_of_week.sunday.money,
+                ]
+              } title={"Daily Spending"} />
+              <WeekChart daily_data_array={ 
+                [
+                  this.state.days_of_week.monday.beers,
+                  this.state.days_of_week.tuesday.beers,
+                  this.state.days_of_week.wednesday.beers,
+                  this.state.days_of_week.thursday.beers,
+                  this.state.days_of_week.friday.beers,
+                  this.state.days_of_week.saturday.beers,
+                  this.state.days_of_week.sunday.beers,
+                ] 
+              } title={"Daily Beers"} />
             </row>
           </div>
           <div className="col-12 mt-5">
@@ -253,6 +313,22 @@ class App extends React.Component{
             update_monthly_expenditures={ this.update_monthly_expenditures }
             expenseTotal={ this.state.monthly_exenditures.household }
           />
+          <MonthlyExpenseRow 
+            title={"Bills"}
+            update_monthly_expenditures={ this.update_monthly_expenditures }
+            expenseTotal={ this.state.monthly_exenditures.bills }
+          />
+          <MonthlyExpenseRow 
+            title={"Medical"}
+            update_monthly_expenditures={ this.update_monthly_expenditures }
+            expenseTotal={ this.state.monthly_exenditures.medical }
+          />
+          <MonthlyExpenseRow 
+            title={"Transportation"}
+            update_monthly_expenditures={ this.update_monthly_expenditures }
+            expenseTotal={ this.state.monthly_exenditures.transportation }
+          />
+
           </div>
           <div className="col-sm mt-5">
             <h1>Monthly Bills Checklist</h1>
@@ -265,7 +341,7 @@ class App extends React.Component{
             </div>
           </div>
 
-        </div>
+      </div>
     )
   }
 

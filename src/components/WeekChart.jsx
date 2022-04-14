@@ -21,7 +21,6 @@ ChartJS.register(
 
 function WeekChart({daily_data_array, title}){
 
-
   const data = {
     labels: [
       'Monday',

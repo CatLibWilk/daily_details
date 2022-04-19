@@ -21,6 +21,7 @@ class App extends React.Component{
 
         totals: { 'money':0, 'beers': 0 }
       },
+      daily_goals_buttons: [],
       monthly_exenditures: {
         groceries: 0,
         household: 0,
@@ -43,11 +44,14 @@ class App extends React.Component{
 
     let rootRef = this.db.ref()
     rootRef.once('value', (snapshot) => {
-      // console.log(snapshot.val());
-      this.setState( snapshot.val( ) )
+      let db_data = snapshot.val( )
+      this.setState( db_data )
+      this.set_radios_from_db( db_data.daily_goals_buttons )
     }, (errorObject) => {
       console.log('The read failed: ' + errorObject.name);
     }); 
+
+    
   }
   
   saveToDB = () =>{
@@ -55,6 +59,15 @@ class App extends React.Component{
     rootRef.set( this.state )
   }
 
+  set_radios_from_db( radios_from_db ){
+    if( radios_from_db ){
+      for( var i = 0; i < radios_from_db.length; i++ ){
+        let btn = document.getElementById( radios_from_db[i] )
+        btn.checked = true
+    }
+  }
+  }
+  
   clearWeek = ( ) => {
     let new_state = {
       days_of_week: {
@@ -179,6 +192,18 @@ class App extends React.Component{
     document.getElementById(input_id).value = '';
   }
 
+  storeRadioClick = ( input ) => {
+    let clicked_radio_btns = [...this.state.daily_goals_buttons ]
+    if ( clicked_radio_btns.includes( input ) ){
+      let idx = clicked_radio_btns.indexOf( input )
+      clicked_radio_btns.splice( idx, 1 )
+    } else {
+      clicked_radio_btns.push( input )
+    }
+
+    this.setState( { daily_goals_buttons: clicked_radio_btns } )
+  }
+
   render(){
     return(
       <div className="container">
@@ -196,7 +221,10 @@ class App extends React.Component{
               addBeers={this.addBeers} 
 
               subtractTotalMoney={ this.subtractTotalMoney } 
-              subtractBeers={this.subtractBeers}/>
+              subtractBeers={this.subtractBeers}
+              
+              storeRadioClick={this.storeRadioClick}/>
+
 
           <DayRow title={"Tuesday"} 
               totalMoney={this.state.days_of_week.tuesday.money} 
@@ -206,7 +234,8 @@ class App extends React.Component{
               addBeers={this.addBeers} 
 
               subtractTotalMoney={ this.subtractTotalMoney } 
-              subtractBeers={ this.subtractBeers }/>
+              subtractBeers={ this.subtractBeers }
+              storeRadioClick={this.storeRadioClick}/>
 
           <DayRow title={"Wednesday"} 
               totalMoney={ this.state.days_of_week.wednesday.money } 
@@ -216,7 +245,8 @@ class App extends React.Component{
               addBeers={this.addBeers} 
 
               subtractTotalMoney={ this.subtractTotalMoney } 
-              subtractBeers= {this.subtractBeers }/>
+              subtractBeers= {this.subtractBeers }
+              storeRadioClick={this.storeRadioClick}/>
 
           <DayRow title={"Thursday"} 
               totalMoney={ this.state.days_of_week.thursday.money } 
@@ -226,7 +256,8 @@ class App extends React.Component{
               addBeers={this.addBeers} 
 
               subtractTotalMoney={ this.subtractTotalMoney } 
-              subtractBeers= {this.subtractBeers }/>
+              subtractBeers= {this.subtractBeers }
+              storeRadioClick={this.storeRadioClick}/>
 
           <DayRow title={"Friday"} 
               totalMoney={ this.state.days_of_week.friday.money } 
@@ -236,7 +267,8 @@ class App extends React.Component{
               addBeers={this.addBeers} 
 
               subtractTotalMoney={ this.subtractTotalMoney } 
-              subtractBeers= {this.subtractBeers }/>
+              subtractBeers= {this.subtractBeers }
+              storeRadioClick={this.storeRadioClick}/>
 
           <DayRow title={"Saturday"} 
               totalMoney={ this.state.days_of_week.saturday.money } 
@@ -246,7 +278,8 @@ class App extends React.Component{
               addBeers={this.addBeers} 
 
               subtractTotalMoney={ this.subtractTotalMoney } 
-              subtractBeers= {this.subtractBeers }/>
+              subtractBeers= {this.subtractBeers }
+              storeRadioClick={this.storeRadioClick}/>
 
           <DayRow title={"Sunday"} 
               totalMoney={ this.state.days_of_week.sunday.money } 
@@ -256,7 +289,8 @@ class App extends React.Component{
               addBeers={this.addBeers} 
 
               subtractTotalMoney={ this.subtractTotalMoney } 
-              subtractBeers= {this.subtractBeers }/>
+              subtractBeers= {this.subtractBeers }
+              storeRadioClick={this.storeRadioClick}/>
 
           <div className="row h-100">
             <div className="col-sm my-auto text-center mt-3">
@@ -277,7 +311,7 @@ class App extends React.Component{
           </div>
 
           <div>
-            <row className="row h-100">
+            <div className="row h-100">
               <WeekChart daily_data_array={ 
                 [
                   this.state.days_of_week.monday.money,
@@ -300,7 +334,7 @@ class App extends React.Component{
                   this.state.days_of_week.sunday.beers,
                 ] 
               } title={"Daily Beers"} />
-            </row>
+            </div>
           </div>
           <div className="col-12 mt-5">
           <MonthlyExpenseRow 
@@ -337,7 +371,7 @@ class App extends React.Component{
 
           <div className="row h-100">
             <div className="col-sm my-auto text-center">
-              <button className="btn btn-danger mt-5" onClick= {( )=>{ this.clearAll( ) } }>Clear All</button>
+              <button className="btn btn-danger mt-5 mb-5" onClick= {( )=>{ this.clearAll( ) } }>Clear All</button>
             </div>
           </div>
 

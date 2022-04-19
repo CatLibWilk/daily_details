@@ -3,7 +3,7 @@ import Radio from './Radio';
 function RadioSet(props){
     return(
     <div className="form-check">
-        {props.name_array.map( ( button, i ) => <Radio id={i} classes={props.classes} category={props.category} name={button}/> )}
+        {props.name_array.map( ( button ) => <Radio id={ `${button.toLowerCase()}_${props.category.toLowerCase()}_id` } key={`${button}_${props.category}_key`} classes={props.classes} category={props.category} name={button} storeRadioClick={props.storeRadioClick}/> )}
     </div>    
     )
 

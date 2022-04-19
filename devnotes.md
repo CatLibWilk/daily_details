@@ -1,6 +1,10 @@
 # persisting state
-- https://www.robinwieruch.de/complete-firebase-authentication-react-tutorial/
+- componentDidMount sets state based on data pulled from firebase realtime db
+- put `onbeforeunload` event listener in DOM during componentdidmount, this saves state to db when window/tab is closed
 
-( to Firebase in React Setup )
-
-- also had an idea, that I could just save the state object as json in a very simple database, like one table, and just basically save snapshots of the state every time a change is made, and pull the most recently created record from the database using one of the React hooks 
+# 4/14/22 still todo
+- monthly cumulative total
+- saving the drink/smoke/sub1700 checks to state
+    - store an array of checked radio buttons by id 
+    - remove them when unchecked
+    - have function called in componentDidMount that runs a for loop to mark them as checked when page loads

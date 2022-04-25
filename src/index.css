@@ -12,6 +12,21 @@ code {
     monospace;
 }
 
+#site-title{
+  font-family: "Verdana", Times, serif;
+  font-style: oblique;
+  color: rgb(237, 108, 108)
+}
+
+.input-group-text{
+  background-color: bisque;
+  border-color: bisque;
+}
+
+.form-control{
+  border-color: bisque;
+}
+
 .btn-circle.btn-sm {
   width: 30px;
   height: 30px;
@@ -26,11 +41,28 @@ code {
   margin-right: 5px;
 }
 
+.btn-ok {
+  background-color:bisque;
+}
+
+.btn-outline-info{
+  background-color: bisque;
+  border-color: bisque;
+  color: black;
+}
+
 .beer-minus-btn {
   margin-right: 10px;
 }
 
+.btn-minus {
+  background-color: bisque;
+}
 .chart-canvas-container {
   padding-left: 100px;
   padding-right: 100px;
+}
+
+#monthly_bills_checklist_form_check_id {
+  padding-left: 0px;
 }

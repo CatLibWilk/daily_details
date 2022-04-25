@@ -21,7 +21,7 @@ class App extends React.Component{
 
         totals: { 'money':0, 'beers': 0 }
       },
-      daily_goals_buttons: [],
+      clicked_radio_buttons: [],
       monthly_exenditures: {
         groceries: 0,
         household: 0,
@@ -46,7 +46,7 @@ class App extends React.Component{
     rootRef.once('value', (snapshot) => {
       let db_data = snapshot.val( )
       this.setState( db_data )
-      this.set_radios_from_db( db_data.daily_goals_buttons )
+      this.set_radios_from_db( db_data.clicked_radio_buttons )
     }, (errorObject) => {
       console.log('The read failed: ' + errorObject.name);
     }); 
@@ -193,7 +193,7 @@ class App extends React.Component{
   }
 
   storeRadioClick = ( input ) => {
-    let clicked_radio_btns = [...this.state.daily_goals_buttons ]
+    let clicked_radio_btns = [...this.state.clicked_radio_buttons ]
     if ( clicked_radio_btns.includes( input ) ){
       let idx = clicked_radio_btns.indexOf( input )
       clicked_radio_btns.splice( idx, 1 )
@@ -201,7 +201,7 @@ class App extends React.Component{
       clicked_radio_btns.push( input )
     }
 
-    this.setState( { daily_goals_buttons: clicked_radio_btns } )
+    this.setState( { clicked_radio_buttons: clicked_radio_btns } )
   }
 
   render(){
@@ -209,7 +209,7 @@ class App extends React.Component{
       <div className="container">
           <div className="row h-100">
             <div className="col-sm my-auto text-center">
-              <h1 className="text-danger">DailyDetails</h1>
+              <h1 className="" id="site-title">DailyDetails</h1>
             </div>
           </div>
 
@@ -362,11 +362,15 @@ class App extends React.Component{
             update_monthly_expenditures={ this.update_monthly_expenditures }
             expenseTotal={ this.state.monthly_exenditures.transportation }
           />
-
-          </div>
+          <div className="row h-100">
+            <div className="col-sm my-auto text-left mt-5">
+              <h1>Total Monthly Expenses: ${ Object.values( this.state.monthly_exenditures ).reduce( (sum, exp ) => sum + exp, 0 )}</h1>
+            </div>
           <div className="col-sm mt-5">
             <h1>Monthly Bills Checklist</h1>
-              <RadioSet category='monthly_bills_checklist' classes='' name_array={['Gas', 'Electric', 'Apartment Insurance', 'CC', 'Internet', 'Rent']}/>
+              <RadioSet storeRadioClick={ this.storeRadioClick } category='monthly_bills_checklist' classes='' name_array={['Gas', 'Electric', 'Apartment Insurance', 'CC', 'Internet', 'Rent']}/>
+          </div>
+          </div>
           </div>
 
           <div className="row h-100">

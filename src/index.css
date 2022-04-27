@@ -40,6 +40,9 @@ code {
 .radio-btn {
   margin-right: 5px;
 }
+.btn-check:checked + .btn-outline-info{
+  background-color: rgb(255, 65, 65);
+}
 
 .btn-ok {
   background-color:bisque;

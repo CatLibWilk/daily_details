@@ -27,7 +27,8 @@ class App extends React.Component{
         household: 0,
         bills: 0,
         medical: 0,
-        transportation: 0
+        transportation: 0,
+        cumulative_weekly_spending: 0,
       }
     }
 
@@ -69,6 +70,14 @@ class App extends React.Component{
   }
   
   clearWeek = ( ) => {
+    let checked_boxes = [ ...this.state.clicked_radio_buttons ]
+    let checked_boxes_weekly_removed = [ ]
+    for( var i = 0; i < checked_boxes.length; i++ ){
+      if( checked_boxes[i].includes('monthly') ){
+        checked_boxes_weekly_removed.push( checked_boxes[i])
+      }
+
+  }
     let new_state = {
       days_of_week: {
         monday: { 'money':0, 'beers':0 },
@@ -81,6 +90,7 @@ class App extends React.Component{
 
         totals: { 'money':0, 'beers': 0 }
       },
+      clicked_radio_buttons: checked_boxes_weekly_removed,
     }
     
     this.setState( new_state );
@@ -107,12 +117,14 @@ class App extends React.Component{
 
         totals: { 'money':0, 'beers': 0 }
       },
+      clicked_radio_buttons: [],
       monthly_exenditures: {
         groceries: 0,
         household: 0,
         bills: 0,
         medical: 0,
-        transportation: 0
+        transportation: 0,
+        cumulative_weekly_spending: 0,
       }
     }
     
@@ -140,7 +152,7 @@ class App extends React.Component{
     };
     const input_id = `money_input_${day.toLowerCase()}`
     document.getElementById(input_id).value = '';
-  }
+  };
 
   addBeers = ( day ) => {
     let current_total  = this.state.days_of_week[ `${day.toLowerCase()}` ].beers;
@@ -150,7 +162,7 @@ class App extends React.Component{
     new_state.days_of_week.totals.beers = Object.values( new_state.days_of_week ).reduce( (sum, { beers } ) => sum + beers, 0 ) - new_state.days_of_week.totals.beers;
 
     this.setState( new_state );
-  }
+  };
 
   subtractBeers = ( day ) => {
     let current_total  = this.state.days_of_week[ `${day.toLowerCase()}` ].beers;
@@ -163,7 +175,7 @@ class App extends React.Component{
     new_state.days_of_week.totals.beers = Object.values( new_state.days_of_week ).reduce( (sum, { beers } ) => sum + beers, 0 ) - new_state.days_of_week.totals.beers;
 
     this.setState( new_state );
-  }
+  };
 
   subtractTotalMoney = ( day ) => {
     let current_total = this.state.days_of_week[ `${day.toLowerCase()}` ].money;
@@ -176,7 +188,20 @@ class App extends React.Component{
     new_state.days_of_week.totals.money = Object.values( new_state.days_of_week ).reduce( (sum, { money } ) => sum + money, 0 ) - new_state.days_of_week.totals.money;
     this.setState( new_state );
 
-  }
+  };
+  
+  saveWeeklySpending = ( ) => {
+    let weekly_spending_total = { ...this.state.days_of_week.totals }
+    let new_state = { ...this.state }
+
+    let cumulative_weekly_spending = weekly_spending_total.money + new_state.monthly_exenditures.cumulative_weekly_spending
+    new_state.monthly_exenditures.cumulative_weekly_spending = cumulative_weekly_spending
+
+    this.setState( new_state )
+
+    this.clearWeek( );
+
+  }; 
 
   update_monthly_expenditures = ( value, expenditure ) => {
     let current_total = this.state.monthly_exenditures[ `${expenditure.toLowerCase()}` ];
@@ -190,7 +215,7 @@ class App extends React.Component{
 
     const input_id = `money_input_${expenditure.toLowerCase( )}`
     document.getElementById(input_id).value = '';
-  }
+  };
 
   storeRadioClick = ( input ) => {
     let clicked_radio_btns = [...this.state.clicked_radio_buttons ]
@@ -202,7 +227,7 @@ class App extends React.Component{
     }
 
     this.setState( { clicked_radio_buttons: clicked_radio_btns } )
-  }
+  };
 
   render(){
     return(
@@ -306,6 +331,12 @@ class App extends React.Component{
 
           <div className="row h-100">
             <div className="col-sm my-auto text-center">
+              <button className="btn btn-danger mt-5" onClick= {( )=>{ this.saveWeeklySpending( ) } }>Save Week</button>
+            </div>
+          </div>
+
+          <div className="row h-100">
+            <div className="col-sm my-auto text-center">
               <button className="btn btn-danger mt-5" onClick= {( )=>{ this.clearWeek( ) } }>Clear Week</button>
             </div>
           </div>
@@ -368,7 +399,7 @@ class App extends React.Component{
             </div>
           <div className="col-sm mt-5">
             <h1>Monthly Bills Checklist</h1>
-              <RadioSet storeRadioClick={ this.storeRadioClick } category='monthly_bills_checklist' classes='' name_array={['Gas', 'Electric', 'Apartment Insurance', 'CC', 'Internet', 'Rent']}/>
+              <RadioSet storeRadioClick={ this.storeRadioClick } category='monthly_bills_checklist' classes='monthly-reset' name_array={['Gas', 'Electric', 'Apartment Insurance', 'CC', 'Internet', 'Rent']}/>
           </div>
           </div>
           </div>
@@ -381,7 +412,7 @@ class App extends React.Component{
 
       </div>
     )
-  }
+  };
 
 
 }

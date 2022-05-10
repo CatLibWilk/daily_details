@@ -2,6 +2,7 @@ import React from 'react';
 import DayRow from './components/DayRow';
 import WeekChart from './components/WeekChart';
 import MonthlyExpenseRow from './components/MonthlyExpenseRow';
+import MonthlyExpensesChart from './components/MonthlyExpensesChart'
 import RadioSet from './components/RadioSet';
 import firebase from 'firebase/compat/app';
 import firebase_config from './components/Firebase/config.js';
@@ -395,15 +396,40 @@ class App extends React.Component{
           />
           <div className="row h-100">
             <div className="col-sm my-auto text-left mt-5">
+              <h1>Total Monthly Pocket: ${ this.state.monthly_exenditures.cumulative_weekly_spending }</h1>
+            </div>
+            <div className="col-sm mt-5">
+              <h1>Monthly Bills Checklist</h1>
+                <RadioSet storeRadioClick={ this.storeRadioClick } category='monthly_bills_checklist' classes='monthly-reset' name_array={['Gas', 'Electric', 'Apartment Insurance', 'CC', 'Internet', 'Rent']}/>
+            </div>
+          </div>
+          <div className="row h-100">
+            <div className="col-sm my-auto text-left mt-5">
               <h1>Total Monthly Expenses: ${ Object.values( this.state.monthly_exenditures ).reduce( (sum, exp ) => sum + exp, 0 )}</h1>
             </div>
-          <div className="col-sm mt-5">
-            <h1>Monthly Bills Checklist</h1>
-              <RadioSet storeRadioClick={ this.storeRadioClick } category='monthly_bills_checklist' classes='monthly-reset' name_array={['Gas', 'Electric', 'Apartment Insurance', 'CC', 'Internet', 'Rent']}/>
-          </div>
           </div>
           </div>
 
+          
+          <MonthlyExpensesChart 
+            labels={ [
+              "groceries",
+              "household",
+              "bills",
+              "medical",
+              "transportation",
+              "cumulative pocket money",
+            ] }
+            data_array={ [
+              this.state.monthly_exenditures.groceries,
+              this.state.monthly_exenditures.household,
+              this.state.monthly_exenditures.bills,
+              this.state.monthly_exenditures.medical,
+              this.state.monthly_exenditures.transportation,
+              this.state.monthly_exenditures.cumulative_weekly_spending,
+            ] }
+          />
+          
           <div className="row h-100">
             <div className="col-sm my-auto text-center">
               <button className="btn btn-danger mt-5 mb-5" onClick= {( )=>{ this.clearAll( ) } }>Clear All</button>

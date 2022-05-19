@@ -232,7 +232,7 @@ class App extends React.Component{
 
   render(){
     return(
-      <div className="container">
+      <div className="container-fluid">
           <div className="row h-100">
             <div className="col-sm my-auto text-center">
               <h1 className="" id="site-title">DailyDetails</h1>
@@ -368,67 +368,73 @@ class App extends React.Component{
               } title={"Daily Beers"} />
             </div>
           </div>
-          <div className="col-12 mt-5">
-          <MonthlyExpenseRow 
-            title={"Groceries"}
-            update_monthly_expenditures={ this.update_monthly_expenditures }
-            expenseTotal={ this.state.monthly_exenditures.groceries }
-          />
-          <MonthlyExpenseRow 
-            title={"Household"}
-            update_monthly_expenditures={ this.update_monthly_expenditures }
-            expenseTotal={ this.state.monthly_exenditures.household }
-          />
-          <MonthlyExpenseRow 
-            title={"Bills"}
-            update_monthly_expenditures={ this.update_monthly_expenditures }
-            expenseTotal={ this.state.monthly_exenditures.bills }
-          />
-          <MonthlyExpenseRow 
-            title={"Medical"}
-            update_monthly_expenditures={ this.update_monthly_expenditures }
-            expenseTotal={ this.state.monthly_exenditures.medical }
-          />
-          <MonthlyExpenseRow 
-            title={"Transportation"}
-            update_monthly_expenditures={ this.update_monthly_expenditures }
-            expenseTotal={ this.state.monthly_exenditures.transportation }
-          />
-          <div className="row h-100">
-            <div className="col-sm my-auto text-left mt-5">
-              <h1>Total Monthly Pocket: ${ this.state.monthly_exenditures.cumulative_weekly_spending }</h1>
+          <div id="monthly-expenses-row" >
+            <div className="col-md-6 mt-5 d-inline-block">
+              <MonthlyExpenseRow 
+                title={"Groceries"}
+                update_monthly_expenditures={ this.update_monthly_expenditures }
+                expenseTotal={ this.state.monthly_exenditures.groceries }
+              />
+              <MonthlyExpenseRow 
+                title={"Household"}
+                update_monthly_expenditures={ this.update_monthly_expenditures }
+                expenseTotal={ this.state.monthly_exenditures.household }
+              />
+              <MonthlyExpenseRow 
+                title={"Bills"}
+                update_monthly_expenditures={ this.update_monthly_expenditures }
+                expenseTotal={ this.state.monthly_exenditures.bills }
+              />
+              <MonthlyExpenseRow 
+                title={"Medical"}
+                update_monthly_expenditures={ this.update_monthly_expenditures }
+                expenseTotal={ this.state.monthly_exenditures.medical }
+              />
+              <MonthlyExpenseRow 
+                title={"Transportation"}
+                update_monthly_expenditures={ this.update_monthly_expenditures }
+                expenseTotal={ this.state.monthly_exenditures.transportation }
+              />
+
             </div>
-            <div className="col-sm mt-5">
-              <h1>Monthly Bills Checklist</h1>
-                <RadioSet storeRadioClick={ this.storeRadioClick } category='monthly_bills_checklist' classes='monthly-reset' name_array={['Gas', 'Electric', 'Apartment Insurance', 'CC', 'Internet', 'Rent']}/>
+
+            <div className="col-md-6 mt-5 d-inline-block">
+            <MonthlyExpensesChart 
+              labels={ [
+                "groceries",
+                "household",
+                "bills",
+                "medical",
+                "transportation",
+                "cumulative pocket money",
+              ] }
+              data_array={ [
+                this.state.monthly_exenditures.groceries,
+                this.state.monthly_exenditures.household,
+                this.state.monthly_exenditures.bills,
+                this.state.monthly_exenditures.medical,
+                this.state.monthly_exenditures.transportation,
+                this.state.monthly_exenditures.cumulative_weekly_spending,
+              ] }
+            />
             </div>
-          </div>
-          <div className="row h-100">
-            <div className="col-sm my-auto text-left mt-5">
-              <h1>Total Monthly Expenses: ${ Object.values( this.state.monthly_exenditures ).reduce( (sum, exp ) => sum + exp, 0 )}</h1>
-            </div>
-          </div>
           </div>
 
+          <div className="row h-100">
+              <div className="col-sm my-auto text-left mt-5">
+                <h1>Total Monthly Pocket: ${ this.state.monthly_exenditures.cumulative_weekly_spending }</h1>
+              </div>
+              <div className="col-sm mt-5">
+                <h1>Monthly Bills Checklist</h1>
+                  <RadioSet storeRadioClick={ this.storeRadioClick } category='monthly_bills_checklist' classes='monthly-reset' name_array={['Gas', 'Electric', 'Apartment Insurance', 'CC', 'Internet', 'Rent']}/>
+              </div>
+            </div>
+            <div className="row h-100">
+              <div className="col-sm my-auto text-left mt-5">
+                <h1>Total Monthly Expenses: ${ Object.values( this.state.monthly_exenditures ).reduce( (sum, exp ) => sum + exp, 0 )}</h1>
+              </div>
+            </div>
           
-          <MonthlyExpensesChart 
-            labels={ [
-              "groceries",
-              "household",
-              "bills",
-              "medical",
-              "transportation",
-              "cumulative pocket money",
-            ] }
-            data_array={ [
-              this.state.monthly_exenditures.groceries,
-              this.state.monthly_exenditures.household,
-              this.state.monthly_exenditures.bills,
-              this.state.monthly_exenditures.medical,
-              this.state.monthly_exenditures.transportation,
-              this.state.monthly_exenditures.cumulative_weekly_spending,
-            ] }
-          />
           
           <div className="row h-100">
             <div className="col-sm my-auto text-center">

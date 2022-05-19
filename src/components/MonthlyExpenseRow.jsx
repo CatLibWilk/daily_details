@@ -5,11 +5,12 @@ function MonthlyExpenseRow(props){
     return(
         <>
         <h3>{props.title.toUpperCase()}</h3>
-        <div className="row h-100">
+        <div className="">
 
+          <div className="d-inline-block">
             <Input cf={ props.update_monthly_expenditures } category={ props.title }/>
-
-          <div className="col-sm text-left">
+          </div>
+          <div className="ms-5 d-inline-block">
             ${props.expenseTotal}
 
           </div>

@@ -19,7 +19,7 @@ ChartJS.register(
   Legend
 );
 
-function WeekChart({daily_data_array, title}){
+function WeekChart({daily_data_array, title, max_y}){
 
   const data = {
     labels: [
@@ -58,7 +58,13 @@ function WeekChart({daily_data_array, title}){
             display:false,
             position:'right'
           },
-          maintainAspectRatio: true
+          maintainAspectRatio: true,
+          scales: {
+            yAxis: {
+              min: 0,
+              max: max_y,
+            }
+          },
         }}
       />
     </div>

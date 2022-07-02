@@ -354,7 +354,7 @@ class App extends React.Component{
                   this.state.days_of_week.saturday.money,
                   this.state.days_of_week.sunday.money,
                 ]
-              } title={"Daily Spending"} max_y={ 115 }/>
+              } title={"Daily Spending"} chart_maxs={ 115 }/>
               <WeekChart daily_data_array={ 
                 [
                   this.state.days_of_week.monday.beers,
@@ -365,7 +365,7 @@ class App extends React.Component{
                   this.state.days_of_week.saturday.beers,
                   this.state.days_of_week.sunday.beers,
                 ] 
-              } title={"Daily Beers"} max_y={ 15 }/>
+              } title={"Daily Beers"} chart_maxs={ 15 }/>
             </div>
           </div>
           <div id="monthly-expenses-row" >

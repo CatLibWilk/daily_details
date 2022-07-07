@@ -20,7 +20,7 @@ ChartJS.register(
 );
 
 function WeekChart({daily_data_array, title, chart_max}){
-
+  console.log(chart_max)
   const data = {
     labels: [
       'Monday',

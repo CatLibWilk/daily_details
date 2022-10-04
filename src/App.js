@@ -261,18 +261,18 @@ class App extends React.Component{
 
               subtractTotalMoney={ this.subtractTotalMoney } 
               subtractBeers={ this.subtractBeers }
-              storeRadioClick={this.storeRadioClick}/>
+              storeRadioClick={ this.storeRadioClick }/>
 
-          <DayRow title={"Wednesday"} 
+          <DayRow title={ "Wednesday" } 
               totalMoney={ this.state.days_of_week.wednesday.money } 
               totalBeers={ this.state.days_of_week.wednesday.beers } 
 
               updateTotalMoney={ this.updateTotalMoney } 
-              addBeers={this.addBeers} 
+              addBeers={ this.addBeers } 
 
               subtractTotalMoney={ this.subtractTotalMoney } 
-              subtractBeers= {this.subtractBeers }
-              storeRadioClick={this.storeRadioClick}/>
+              subtractBeers= { this.subtractBeers }
+              storeRadioClick={ this.storeRadioClick }/>
 
           <DayRow title={"Thursday"} 
               totalMoney={ this.state.days_of_week.thursday.money } 

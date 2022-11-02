@@ -426,7 +426,7 @@ class App extends React.Component{
               </div>
               <div className="col-sm mt-5">
                 <h1>Monthly Bills Checklist</h1>
-                  <RadioSet storeRadioClick={ this.storeRadioClick } category='monthly_bills_checklist' classes='monthly-reset' name_array={['Gas', 'Electric', 'Apartment Insurance', 'CC', 'Internet', 'Rent']}/>
+                  <RadioSet storeRadioClick={ this.storeRadioClick } category='monthly_bills_checklist' classes='monthly-reset' name_array={ [ 'Rent', 'CC', 'Gym', 'Gas', 'Electric', 'Apartment Insurance', 'Internet' ] }/>
               </div>
             </div>
             <div className="row h-100">
